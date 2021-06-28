@@ -22,8 +22,13 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: qr_menu_backend_development
+  adapter: postgresql
+  encoding: unicode
+  database: postgres
+  username: <%= ENV['RDS_USERNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  port: 5432
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -80,7 +85,10 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: qr_menu_backend_production
-  username: qr_menu_backend
-  password: <%= ENV['QR_MENU_BACKEND_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding: unicode
+  database: postgres
+  username: <%= ENV['RDS_USERNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  port: 5432
