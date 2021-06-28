@@ -1,0 +1,3 @@
+class MenusController < ApplicationController
+  
+end
