@@ -1,26 +1,29 @@
 class SessionsController < ApplicationController
 
   def create
-    @user = User.find_by(email: session_params[:email])
-  
-    if @user && @user.authenticate(session_params[:password])
-      login!
-      render json: {
-        logged_in: true,
-        user: @user,
-      }
+
+    user = User.find_by(email: params[:email])
+
+    if user && user.authenticate(params[:password])
+      
+      token = Auth.create_token(user)
+      returned_user = Auth.decode_token(token)
+      render json: {token: token, logged_in: true}, status: 200
+			
     else
-      render json: { 
-        status: 401,
-        errors: ['no such user', 'verify credentials and try again or signup']
-      }
+      render json: {errors: "Email or Password is incorrect"}, status: 500
     end
   end
 
-  private
-
-  def session_params
-    params.permit(:email, :password, :session)
+  def is_logged_in?
+    decoded = Auth.decode_token(params[:token])
+    
+    if User.find_by(email: decoded.first['user']['email'])
+      render json: {logged_in: true, status: 'success'}
+    elsif
+      render json: {logged_in: false, status: 'success'}
+    end
+    
   end
 
 end
