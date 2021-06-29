@@ -4,8 +4,11 @@ Rails.application.routes.draw do
 
   namespace 'api' do
     namespace 'v1' do
-      resources :menus, only: [:create, :update, :destroy]
-      resources :sessions, only: [:create, :destroy]
+      resources :menu
+      resources :users, only: [:create, :show, :index]
     end
   end
+  
+  post '/login', to: 'sessions#create'
+
 end
