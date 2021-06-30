@@ -4,8 +4,9 @@ Rails.application.routes.draw do
 
   namespace 'api' do
     namespace 'v1' do
-      resources :menu
+      resources :menus
       resources :users, only: [:create, :show, :index]
+      post '/find_menus', to: 'menus#find_menus'
     end
   end
 
@@ -13,5 +14,6 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   post '/logged_in', to: 'sessions#is_logged_in?'
+ 
   
 end
