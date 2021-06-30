@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       
       token = Auth.create_token(user)
-      returned_user = Auth.decode_token(token)
       render json: {token: token, logged_in: true}, status: 200
 			
     else
@@ -16,6 +15,7 @@ class SessionsController < ApplicationController
   end
 
   def is_logged_in?
+
     decoded = Auth.decode_token(params[:token])
     
     if User.find_by(email: decoded.first['user']['email'])
