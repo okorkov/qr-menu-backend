@@ -1,6 +1,6 @@
 class Menu < ApplicationRecord
   belongs_to :user
 
-  has_many_attached :pdf_files
+  has_one_attached :pdf_file
 
 end
