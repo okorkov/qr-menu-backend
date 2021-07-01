@@ -28,7 +28,7 @@ class Api::V1::MenusController < ApplicationController
     menu.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_code_#{menu.id}.png")
     menu.qr_code_link = menu.qr_code.url.sub(/\?.*/, '')
     menu.save
-    render json: {menu: menu, menu_doc: menu.pdf_file, link: menu.link, qrcode: menu.qr_code_link}
+    render json: {link: menu.link, qrcode: menu.qr_code_link}
   end
 
   def find_menus
@@ -36,9 +36,9 @@ class Api::V1::MenusController < ApplicationController
     user_id_decoded = decoded.first['user']['id']
     user = User.find_by(id: user_id_decoded)
     if user.menus.size > 0
-      render json: {last_menu: {menu: user.menus.last, pdf_file: user.menus.last.pdf_file}}
+      render json: {last_menu: {has_menu: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link}}
     else
-      render json: {last_menu: {menu: nil, pdf_file: nil}}
+      render json: {last_menu: {menu: false}}
     end
   end
 
