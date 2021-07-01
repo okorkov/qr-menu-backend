@@ -22,6 +22,7 @@ gem 'jwt', '~> 1.5', '>= 1.5.4'
 
 gem "aws-sdk-s3", require: false
 gem 'dotenv-rails'
+gem 'rqrcode', '~> 2.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

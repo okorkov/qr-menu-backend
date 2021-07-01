@@ -11,7 +11,7 @@ class Api::V1::MenusController < ApplicationController
     menu = Menu.new
     menu.user = user
     menu.pdf_file.attach(menu_params['file'])
-    menu.link = menu.pdf_file.service_url
+    # menu.link = menu.pdf_file.service_url
     menu.save
     render json: {menu: menu, menu_doc: menu.pdf_file, link: menu.link}
   end
