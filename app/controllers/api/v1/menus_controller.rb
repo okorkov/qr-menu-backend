@@ -6,19 +6,19 @@ class Api::V1::MenusController < ApplicationController
 
   def create
     decoded = Auth.decode_token(menu_params['token'])
-    user_id_decoded = decoded.first['user']['user']['id']
+    user_id_decoded = decoded.first['user']['id']
     user = User.find_by(id: user_id_decoded)
     menu = Menu.new
     menu.user = user
     menu.pdf_file.attach(menu_params['file'])
+    menu.link = menu.pdf_file.service_url
     menu.save
-    debugger
-    render json: {menu: menu, menu_doc: menu.pdf_file, link: menu.pdf_file}
+    render json: {menu: menu, menu_doc: menu.pdf_file, link: menu.link}
   end
 
   def find_menus
     decoded = Auth.decode_token(params[:token])
-    user_id_decoded = decoded.first['user']['user']['id']
+    user_id_decoded = decoded.first['user']['id']
     user = User.find_by(id: user_id_decoded)
     if user.menus.size > 0
       render json: {last_menu: {menu: user.menus.last, pdf_file: user.menus.last.pdf_file}}

@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
-      token = Auth.create_token({user: user, menus: user.menus})
+      token = Auth.create_token(user)
       render json: {token: token, logged_in: true}, status: 200
 			
     else
