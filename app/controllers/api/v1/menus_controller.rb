@@ -6,8 +6,7 @@ class Api::V1::MenusController < ApplicationController
 
   def create
     decoded = Auth.decode_token(menu_params['token'])
-    user_id_decoded = decoded.first['user']['id']
-    user = User.find_by(id: user_id_decoded)
+    user = User.find_by(id: decoded.first['user']['id'])
     menu = Menu.new
     menu.user = user
     menu.pdf_file.attach(menu_params['file'])
@@ -28,6 +27,7 @@ class Api::V1::MenusController < ApplicationController
     menu.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_code_#{menu.id}.png")
     menu.qr_code_link = menu.qr_code.url.sub(/\?.*/, '')
     menu.save
+    UserMailer.send_qr_code(user).deliver_now
     render json: {link: menu.link, qrcode: menu.qr_code_link}
   end
 
@@ -40,6 +40,14 @@ class Api::V1::MenusController < ApplicationController
     else
       render json: {last_menu: {menu: false}}
     end
+  end
+
+  def resend_qr_code
+    decoded = Auth.decode_token(params[:token])
+    user_id_decoded = decoded.first['user']['id']
+    user = User.find_by(id: user_id_decoded)
+    UserMailer.send_qr_code(user).deliver_now
+    render json: {status: 'success'}
   end
 
   private 

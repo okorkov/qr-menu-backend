@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :menus
       resources :users, only: [:create, :show, :index]
       post '/find_menus', to: 'menus#find_menus'
+      post '/resend_qr_code', to: 'menus#resend_qr_code'
     end
   end
 
