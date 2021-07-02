@@ -25,4 +25,13 @@ class SessionsController < ApplicationController
     
   end
 
+  def destroy
+    decoded = Auth.decode_token(params[:token])
+    if User.find_by(email: decoded.first['user']['email'])
+      render json: {can_be_logged_out: true, status: 'success'}
+    elsif
+      render json: {can_be_logged_out: false, status: 'success'}
+    end
+  end
+
 end
