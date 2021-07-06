@@ -5,14 +5,14 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
-#   allow do
-#     origins 'https://qr-menu.rest/', 'http://localhost:3001'
-#     resource '*',
-#       headers: :any,
-#       methods: [:get, :post, :put, :patch, :delete, :options, :head],
-#       credentials: true
-#   end
+  allow do
+    origins 'https://qr-menu.rest/', 'http://localhost:3001'
+    resource '*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      credentials: true
+  end
 
-# end
+end
