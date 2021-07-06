@@ -8,7 +8,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
   allow do
-    origins 'http://qr-menu.rest/', 'http://localhost:3001'
+    origins 'https://qr-menu.rest/', 'http://localhost:3001'
     resource '*',
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head],
