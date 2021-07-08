@@ -28,12 +28,12 @@ before_action :user, except: [:demo, :demo_upload]
     menu.qr_code_link = menu.qr_code.url.sub(/\?.*/, '')
     menu.save
     UserMailer.send_qr_code(user).deliver_now
-    render json: {pdf_file: menu.link, qr_code: menu.qr_code_link}
+    render json: {pdf_file: menu.link, qr_code: menu.qr_code_link, uploaded: menu.created_at}
   end
 
   def find_menus
     if user.menus.size > 0
-      render json: {last_menu: {has_menu: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link}}
+      render json: {last_menu: {has_menu: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link, uploaded: user.menus.last.created_at}}
     else
       render json: {last_menu: {menu: false}}
     end
@@ -46,7 +46,7 @@ before_action :user, except: [:demo, :demo_upload]
 
   def demo
     user = User.find_by(email: 'demo@qr-menu.rest')
-    render json: {pdf_file: user.menus.first.link, qr_code: user.menus.first.qr_code_link}
+    render json: {pdf_file: user.menus.first.link, qr_code: user.menus.first.qr_code_link, uploaded: user.menus.first.created_at}
   end
 
   def demo_upload
@@ -70,7 +70,7 @@ before_action :user, except: [:demo, :demo_upload]
     menu.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_code_#{menu.id}.png")
     menu.qr_code_link = menu.qr_code.url.sub(/\?.*/, '')
     menu.save
-    render json: {pdf_file: menu.link, qr_code: menu.qr_code_link}
+    render json: {pdf_file: menu.link, qr_code: menu.qr_code_link, uploaded: menu.created_at}
   end
 
   private 
