@@ -5,13 +5,15 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
       resources :menus
-      resources :users, only: [:create, :show, :index]
       post '/find_menus', to: 'menus#find_menus'
       get '/demo', to: 'menus#demo'
       post '/resend_qr_code', to: 'menus#resend_qr_code'
       post 'demo_upload', to: 'menus#demo_upload'
     end
   end
+
+  post '/generate_qr_for_menu' , to: 'users#generate_qr_for_menu'
+  post '/upload_file', to: 'users#upload_file'
 
   resources :users, only: [:create]
   post '/login', to: 'sessions#create'
