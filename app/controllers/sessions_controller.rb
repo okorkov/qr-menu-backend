@@ -7,7 +7,12 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       
       token = Auth.create_token(user)
-      render json: {token: token, logged_in: true}, status: 200
+      render json:{
+                    logged_in: true,
+                    last_file: {has_file: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link, uploaded: user.menus.last.created_at},
+                    all_files: user.menus.last(20),
+                    token: token
+                  }, status: 200
 			
     else
       render json: {errors: "Email or Password is incorrect"}, status: 200
@@ -15,10 +20,15 @@ class SessionsController < ApplicationController
   end
 
   def is_logged_in?
-
     decoded = Auth.decode_token(params[:token])
-    if User.find_by(email: decoded.first['user']['email'])
-      render json: {logged_in: true, status: 'success'}
+    user = User.find_by(email: decoded.first['user']['email'])
+    if user
+      render json:{
+                    logged_in: true, 
+                    last_file: {has_file: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link, uploaded: user.menus.last.created_at},
+                    all_files: user.menus.last(20),
+                    menu_qr_link: user.email
+                  }
     elsif
       render json: {logged_in: false, status: 'success'}
     end

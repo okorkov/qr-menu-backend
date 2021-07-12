@@ -4,6 +4,9 @@ class User < ApplicationRecord
   
   has_many :menus
 
+  has_one_attached :file
+  has_one_attached :qr_code
+
   validates :email, presence: true
   validates :email, uniqueness: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
