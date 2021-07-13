@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     if user.save
       UserMailer.welcome_email(user).deliver_now
       token = Auth.create_token(user)
-      render json: {token: token, logged_in: true}, status: 200
+      render json: {token: token, logged_in: true, menu_qr_link: user.id,}, status: 200
     else
       render json: {errors: user.errors, logged_in: false, status: 500}, status: 200
     end
