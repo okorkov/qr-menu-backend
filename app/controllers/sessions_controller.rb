@@ -7,9 +7,20 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       
       token = Auth.create_token(user)
+
+      pdf_file = nil
+      qr_code = nil
+      uploaded = nil
+      has_file = false
+      if user.menus.last
+        pdf_file = user.menus.last.link 
+        qr_code = user.menus.last.qr_code_link 
+        uploaded = user.menus.last.created_at
+        has_file = true
+      end
       render json:{
                     logged_in: true,
-                    last_file: {has_file: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link, uploaded: user.menus.last.created_at},
+                    last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded},
                     all_files: user.menus.last(20),
                     menu_qr_link: user.id,
                     menu_file: user.file_link,
