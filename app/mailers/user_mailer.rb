@@ -10,4 +10,9 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: 'Welcome to qr-menu.rest')
   end
 
+  def send_qr_menu(user)
+    @user = user
+    mail(to: @user.email, subject: 'Your QR Code has arrived!')
+  end
+
 end

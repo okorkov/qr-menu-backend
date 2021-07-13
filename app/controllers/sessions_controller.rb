@@ -11,10 +11,11 @@ class SessionsController < ApplicationController
                     logged_in: true,
                     last_file: {has_file: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link, uploaded: user.menus.last.created_at},
                     all_files: user.menus.last(20),
-                    menu_qr_link: user.email,
+                    menu_qr_link: user.id,
                     menu_file: user.file_link,
                     menu_link: user.qr_code_link,
-                    token: token
+                    token: token,
+
                   }, status: 200
 			
     else
@@ -30,7 +31,8 @@ class SessionsController < ApplicationController
                     logged_in: true, 
                     last_file: {has_file: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link, uploaded: user.menus.last.created_at},
                     all_files: user.menus.last(20),
-                    menu_qr_link: user.email,
+                    menu_qr_link: user.id,
+                    # menu_qr_link: user.email.split('@').first + user.id.to_s,
                     menu_file: user.file_link,
                     menu_link: user.qr_code_link,
                   }

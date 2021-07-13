@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   post '/generate_qr_for_menu' , to: 'users#generate_qr_for_menu'
   post '/upload_file', to: 'users#upload_file'
+  get '/get_menu/:id', to: 'users#get_menu'
+  post '/resend_qr_menu', to: 'users#resend_qr_menu'
 
   resources :users, only: [:create]
   post '/login', to: 'sessions#create'
