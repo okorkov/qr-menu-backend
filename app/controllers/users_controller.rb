@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   def generate_qr_for_menu
     decoded = Auth.decode_token(menu_params[:token])
     user = User.find_by(id: decoded.first['user']['id'])
-    domain = "#{menu_params[:domain]}"
+    domain = "https://#{menu_params[:domain]}"
     qrcode = RQRCode::QRCode.new(domain)
     png = qrcode.as_png(
       bit_depth: 1,
