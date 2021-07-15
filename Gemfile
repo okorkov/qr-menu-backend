@@ -20,7 +20,7 @@ gem 'jwt', '~> 1.5', '>= 1.5.4'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
-gem "aws-sdk-s3", require: false
+# gem "aws-sdk-s3", require: false
 gem 'dotenv-rails'
 gem 'rqrcode', '~> 2.0'
 gem 'bootstrap-email'
