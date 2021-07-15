@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+def clear_demo_menus
+  u = User.all.first
+  u.menus.each do |menu|
+    if menu.id != 50
+      menu.destroy
+    end
+  end
+end
