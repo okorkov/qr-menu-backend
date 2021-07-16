@@ -33,6 +33,7 @@ class UsersController < ApplicationController
     user.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_code_#{user.id}.png")
     user.qr_code_link = user.qr_code.url.sub(/\?.*/, '')
     user.save
+    UserMailer.send_qr_menu(user).deliver_now
     render json: {qr_code_link: user.qr_code_link, status: 'success', domain: domain}
   end
 
