@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_secure_password
   
   has_many :menus
+  has_many :links
 
   has_one_attached :file
   has_one_attached :qr_code
