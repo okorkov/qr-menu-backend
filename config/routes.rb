@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
       resources :menus
+      resources :links, only: [:create]
       post '/find_menus', to: 'menus#find_menus'
       get '/demo', to: 'menus#demo'
       post '/resend_qr_code', to: 'menus#resend_qr_code'

@@ -18,6 +18,8 @@ class SessionsController < ApplicationController
         uploaded = user.menus.last.created_at
         has_file = true
       end
+      links = [] 
+      user.links.each {|l| links.push({address: l.address, qr_code: l.qr_code_link})}
       render json:{
                     logged_in: true,
                     last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded},
@@ -26,7 +28,7 @@ class SessionsController < ApplicationController
                     menu_file: user.file_link,
                     menu_link: user.qr_code_link,
                     token: token,
-
+                    links: links
                   }, status: 200
 			
     else
@@ -48,6 +50,8 @@ class SessionsController < ApplicationController
         uploaded = user.menus.last.created_at
         has_file = true
       end
+      links = [] 
+      user.links.each {|l| links.push({address: l.address, qr_code: l.qr_code_link})}
       render json:{
                     logged_in: true, 
                     last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded},
@@ -55,20 +59,12 @@ class SessionsController < ApplicationController
                     menu_qr_link: user.id,
                     menu_file: user.file_link,
                     menu_link: user.qr_code_link,
+                    links: links
                   }
     elsif
       render json: {logged_in: false, status: 'success'}
     end
     
-  end
-
-  def destroy
-    decoded = Auth.decode_token(params[:token])
-    if User.find_by(email: decoded.first['user']['email'])
-      render json: {can_be_logged_out: true, status: 'success'}
-    elsif
-      render json: {can_be_logged_out: false, status: 'success'}
-    end
   end
 
 end
