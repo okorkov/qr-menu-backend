@@ -20,13 +20,29 @@ class Api::V1::LinksController < ApplicationController
     new_link.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_link.png")
     new_link.qr_code_link = new_link.qr_code.url.sub(/\?.*/, '')
     new_link.save
-    render json: {address: new_link.address, qr_code: new_link.qr_code_link}
+    render json: {address: new_link.address, qr_code: new_link.qr_code_link, id: new_link.id}
+  end
+
+  def destroy
+    if user
+      if Link.find(delete_params[:qr_code_address]).destroy
+        render json: {status: 'success', id: delete_params[:qr_code_address]}
+      else
+        render json: {status: 'failed'}
+      end
+    else
+      render json: {status: 'failed'}
+    end
   end
 
   private 
 
   def menu_params
     params.permit(:token, :input)
+  end
+
+  def delete_params 
+    params.permit(:qr_code_address)
   end
 
 end
