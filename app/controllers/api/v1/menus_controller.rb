@@ -7,7 +7,7 @@ before_action :user, except: [:demo, :demo_upload]
   end
 
   def create
-    menu = Menu.new
+    menu = Menu.new(file_name_params)
     menu.user = user
     menu.pdf_file.attach(menu_params['file'])
     menu.link = menu.pdf_file.url.sub(/\?.*/, '')
@@ -28,13 +28,13 @@ before_action :user, except: [:demo, :demo_upload]
     menu.qr_code_link = menu.qr_code.url.sub(/\?.*/, '')
     menu.save
     UserMailer.send_qr_code(user).deliver_now
-    render json: {last_file: {has_file: true, pdf_file: menu.link, qr_code: menu.qr_code_link, uploaded: menu.created_at}}
+    render json: {last_file: {has_file: true, pdf_file: menu.link, qr_code: menu.qr_code_link, uploaded: menu.created_at, id: menu.id, file_name: menu.file_name}}
     
   end
 
   def find_menus
     if user.menus.size > 0
-      render json: {last_file: {has_file: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link, uploaded: user.menus.last.created_at},
+      render json: {last_file: {has_file: true, pdf_file: user.menus.last.link, qr_code: user.menus.last.qr_code_link, uploaded: user.menus.last.created_at, id: user.menus.last.id, file_name: user.menus.last.file_name},
                     all_menus: user.menus
                     }
     else
@@ -76,10 +76,30 @@ before_action :user, except: [:demo, :demo_upload]
     render json: {pdf_file: menu.link, qr_code: menu.qr_code_link, uploaded: menu.created_at}
   end
 
+  def destroy
+    if user
+      if Menu.find(delete_params[:id]).destroy
+        render json: {status: 'success', id: delete_params[:id]}
+      else
+        render json: {status: 'failed'}
+      end
+    else
+      render json: {status: 'failed'}
+    end
+  end
+
   private 
 
   def menu_params
     params.permit(:token, :file)
+  end
+
+  def file_name_params
+    params.permit(:file_name)
+  end
+
+  def delete_params 
+    params.permit(:id, :token)
   end
 
 end

@@ -10,7 +10,8 @@ Rails.application.routes.draw do
       post '/find_menus', to: 'menus#find_menus'
       get '/demo', to: 'menus#demo'
       post '/resend_qr_code', to: 'menus#resend_qr_code'
-      post 'demo_upload', to: 'menus#demo_upload'
+      post '/demo_upload', to: 'menus#demo_upload'
+      post '/menus/:id', to: 'menus#destroy'
     end
   end
 

@@ -12,17 +12,21 @@ class SessionsController < ApplicationController
       qr_code = nil
       uploaded = nil
       has_file = false
+      id = nil
+      file_name = nil
       if user.menus.last
         pdf_file = user.menus.last.link 
         qr_code = user.menus.last.qr_code_link 
         uploaded = user.menus.last.created_at
         has_file = true
+        id = user.menus.last.id
+        file_name = user.menus.last.file_name
       end
       links = [] 
       user.links.each {|l| links.push({address: l.address, qr_code: l.qr_code_link})}
       render json:{
                     logged_in: true,
-                    last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded},
+                    last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded, id: id},
                     all_files: user.menus.last(20),
                     menu_qr_link: user.id,
                     menu_file: user.file_link,
@@ -44,18 +48,22 @@ class SessionsController < ApplicationController
       qr_code = nil
       uploaded = nil
       has_file = false
+      id = nil
+      file_name = nil
       if user.menus.last
         pdf_file = user.menus.last.link 
         qr_code = user.menus.last.qr_code_link 
         uploaded = user.menus.last.created_at
         has_file = true
+        id = user.menus.last.id
+        file_name = user.menus.last.file_name
       end
       links = [] 
       user.links.each {|l| links.push({address: l.address, qr_code: l.qr_code_link, id: l.id})}
       render json:{
                     logged_in: true, 
-                    last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded},
-                    all_files: user.menus.last(20),
+                    last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded, id: id},
+                    all_files: user.menus.last(50),
                     menu_qr_link: user.id,
                     menu_file: user.file_link,
                     menu_link: user.qr_code_link,
