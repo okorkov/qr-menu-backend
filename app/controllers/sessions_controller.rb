@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
         file_name = user.menus.last.file_name
       end
       links = [] 
-      user.links.each {|l| links.push({address: l.address, qr_code: l.qr_code_link})}
+      user.links.each {|l| links.push({address: l.address, qr_code: l.qr_code_link, id: l.id})}
       render json:{
                     logged_in: true,
                     last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded, id: id},
@@ -95,7 +95,7 @@ class SessionsController < ApplicationController
         file_name = user.menus.last.file_name
       end
       links = [] 
-      user.links.each {|l| links.push({address: l.address, qr_code: l.qr_code_link})}
+      user.links.each {|l| links.push({address: l.address, qr_code: l.qr_code_link, id: l.id})}
       render json:{
                     logged_in: true,
                     last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded, id: id},
