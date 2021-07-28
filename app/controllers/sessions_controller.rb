@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
 
   def google_auth
     user = User.find_or_create_by(google_params)
-    if user.password_digest.nil? user.password = SecureRandom.hex(10)
+    user.password = SecureRandom.hex(10) if user.password_digest.nil? 
     user.save
     if user
       token = Auth.create_token(user)
