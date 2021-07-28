@@ -9,14 +9,15 @@ before_action :user, except: [:demo, :demo_upload]
   def create
     menu = Menu.new(file_name_params)
     menu.user = user
-    menu.pdf_file.attach(menu_params['file'])
-    menu.link = menu.pdf_file.url.sub(/\?.*/, '')
-    png = generate_qr_code(menu.link)
-    menu.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_code_#{menu.id}.png")
-    menu.qr_code_link = menu.qr_code.url.sub(/\?.*/, '')
-    menu.save
+    process_menu_upload(menu, menu_params[:file])
     render json: {last_file: {has_file: true, pdf_file: menu.link, qr_code: menu.qr_code_link, uploaded: menu.created_at, id: menu.id, file_name: menu.file_name}}
-    
+  end
+
+  def demo_upload
+    menu = Menu.new
+    menu.user = User.find_by(email: 'demo@qr-menu.rest')
+    process_menu_upload(menu, menu_params[:file])
+    render json: {pdf_file: menu.link, qr_code: menu.qr_code_link, uploaded: menu.created_at}
   end
 
   def find_menus
@@ -37,18 +38,6 @@ before_action :user, except: [:demo, :demo_upload]
   def demo
     user = User.find_by(email: 'demo@qr-menu.rest')
     render json: {pdf_file: user.menus.first.link, qr_code: user.menus.first.qr_code_link, uploaded: user.menus.first.created_at}
-  end
-
-  def demo_upload
-    menu = Menu.new
-    menu.user = User.find_by(email: 'demo@qr-menu.rest')
-    menu.pdf_file.attach(menu_params['file'])
-    menu.link = menu.pdf_file.url.sub(/\?.*/, '')
-    png = generate_qr_code(menu.link)
-    menu.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_code_#{menu.id}.png")
-    menu.qr_code_link = menu.qr_code.url.sub(/\?.*/, '')
-    menu.save
-    render json: {pdf_file: menu.link, qr_code: menu.qr_code_link, uploaded: menu.created_at}
   end
 
   def destroy

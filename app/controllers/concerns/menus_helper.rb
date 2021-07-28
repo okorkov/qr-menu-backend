@@ -49,4 +49,13 @@ module MenusHelper
     }
   end
 
+  def process_menu_upload(menu, file)
+    menu.pdf_file.attach(file)
+    menu.link = menu.pdf_file.url.sub(/\?.*/, '')
+    png = generate_qr_code(menu.link)
+    menu.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_code_#{menu.id}.png")
+    menu.qr_code_link = menu.qr_code.url.sub(/\?.*/, '')
+    menu.save
+  end
+
 end
