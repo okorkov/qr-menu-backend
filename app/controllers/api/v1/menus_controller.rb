@@ -15,7 +15,6 @@ before_action :user, except: [:demo, :demo_upload]
     menu.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_code_#{menu.id}.png")
     menu.qr_code_link = menu.qr_code.url.sub(/\?.*/, '')
     menu.save
-    UserMailer.send_qr_code(user).deliver_now
     render json: {last_file: {has_file: true, pdf_file: menu.link, qr_code: menu.qr_code_link, uploaded: menu.created_at, id: menu.id, file_name: menu.file_name}}
     
   end

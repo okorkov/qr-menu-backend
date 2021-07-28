@@ -21,4 +21,32 @@ module MenusHelper
     )
   end
 
+  def user_json(user, token = nil)
+    pdf_file = nil
+    qr_code = nil
+    uploaded = nil
+    has_file = false
+    id = nil
+    file_name = nil
+    links = user.links 
+    if user.menus.last
+      pdf_file = user.menus.last.link 
+      qr_code = user.menus.last.qr_code_link 
+      uploaded = user.menus.last.created_at
+      has_file = true
+      id = user.menus.last.id
+      file_name = user.menus.last.file_name
+    end
+    user_json = {
+      logged_in: true, 
+      last_file: {has_file: has_file, pdf_file: pdf_file, qr_code: qr_code, uploaded: uploaded, id: id},
+      all_files: user.menus.last(50),
+      menu_qr_link: user.id,
+      menu_file: user.file_link,
+      menu_link: user.qr_code_link,
+      links: links,
+      token: token
+    }
+  end
+
 end
