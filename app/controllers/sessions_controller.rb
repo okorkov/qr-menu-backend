@@ -21,10 +21,10 @@ class SessionsController < ApplicationController
   end
 
   def google_auth
-    user = User.find_or_create_by(google_params)
+    user = User.find_or_create_by(email: google_params[:email])
     user.password = SecureRandom.hex(10) if user.password_digest.nil? 
     user.save
-    if user
+    if user && google_params[:idpid] == ENV['ADPID']
       token = Auth.create_token(user)
       render json: user_json(user, token)
     else
@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
   private
 
   def google_params
-    params.permit(:email)
+    params.permit(:email, :idpid)
   end
 
   def menu_params
