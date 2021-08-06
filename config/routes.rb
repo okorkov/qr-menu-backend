@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     namespace 'v1' do
       resources :menus
       resources :links, only: [:create]
-      post '/links/:qr_code_address', to: 'links#destroy'
+      post '/links/:id', to: 'links#destroy'
       post '/find_menus', to: 'menus#find_menus'
       get '/demo', to: 'menus#demo'
       post '/resend_qr_code', to: 'menus#resend_qr_code'

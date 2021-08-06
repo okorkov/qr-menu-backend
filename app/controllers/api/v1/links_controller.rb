@@ -13,8 +13,8 @@ class Api::V1::LinksController < ApplicationController
 
   def destroy
     if user
-      if Link.find(delete_params[:qr_code_address]).destroy
-        render json: {status: 'success', id: delete_params[:qr_code_address]}
+      if Link.find(delete_params[:id]).destroy
+        render json: {status: 'success', id: delete_params[:id]}
       else
         render json: {status: 'failed'}
       end
@@ -30,7 +30,7 @@ class Api::V1::LinksController < ApplicationController
   end
 
   def delete_params 
-    params.permit(:qr_code_address)
+    params.permit(:id)
   end
 
 end

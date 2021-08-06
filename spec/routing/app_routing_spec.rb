@@ -77,9 +77,9 @@ RSpec.describe "Routes", :type => :routing do
       to route_to("api/v1/menus#find_menus")
   end
 
-  it "route /api/v1/links/:qr_code_address to point to the links#destroy" do
+  it "route /api/v1/links/:id to point to the links#destroy" do
     expect(post("/api/v1/links/destroy_link")).
-    to route_to(controller: "api/v1/links", action: 'destroy', qr_code_address: 'destroy_link')
+    to route_to(controller: "api/v1/links", action: 'destroy', id: 'destroy_link')
   end
 
   it "route /api/v1/links to point to the links#create" do

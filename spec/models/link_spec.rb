@@ -8,5 +8,14 @@ RSpec.describe Link, type: :model do
     expect(Link.new(user: user)).to be_valid
   end
 
+  it "is has file attached" do
+    link = Link.new(user: User.create(email: 'test@qr-menu.rest', password: 'test'))
+    link.qr_code.attach(
+      io: File.open(Rails.root.join('spec', 'fixtures', 'test.pdf')),
+      filename: 'test.pdf',
+      content_type: 'application/pdf'
+    )
+    expect(link.qr_code).to be_attached
+  end
 
 end
