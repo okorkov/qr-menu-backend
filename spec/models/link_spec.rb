@@ -8,4 +8,5 @@ RSpec.describe Link, type: :model do
     expect(Link.new(user: user)).to be_valid
   end
 
+
 end
