@@ -8,7 +8,6 @@ RSpec.describe UsersController, :type => :controller do
       @token = Auth.create_token(@user)
     end
 
-
     it "creates user with valid credentials" do
       post :create, params: {email: 'test-register@qr-menu.rest', password: 'test', password_confirmation: 'test'}
       expect(response).to have_http_status(:ok)
