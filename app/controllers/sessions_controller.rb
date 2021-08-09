@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
     if user
       render json: user_json(user)
     elsif
-      render json: {logged_in: false, status: 'success'}
+      render json: {logged_in: false, status: 'failed authentication'}
     end
   end
 
