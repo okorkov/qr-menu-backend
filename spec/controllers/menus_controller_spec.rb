@@ -38,4 +38,17 @@ RSpec.describe Api::V1::MenusController, :type => :controller do
     expect(JSON.parse(response.body)['last_file']['has_file']).to be(true)
   end
 
+  it 're-sends qr_code (resend_qr_code) action' do
+    menu = Menu.new(user: @user)
+    menu.pdf_file.attach(@file)
+    menu.save
+    post :resend_qr_code, params: {token: @token}
+    expect(response).to have_http_status(:ok)
+    expect(JSON.parse(response.body)["status"]).to eq("success")
+  end
+
+  it 'pulls out data for demo controller consistently'
+
+  it 'destroys the menu'
+
 end
