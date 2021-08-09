@@ -11,7 +11,7 @@ RSpec.describe Link, type: :model do
   it "is has file attached" do
     link = Link.new(user: User.create(email: 'test@qr-menu.rest', password: 'test'))
     link.qr_code.attach(
-      io: File.open(Rails.root.join('spec', 'fixtures', 'test.pdf')),
+      io: File.open(Rails.root.join('spec', 'fixtures', 'files', 'test.pdf')),
       filename: 'test.pdf',
       content_type: 'application/pdf'
     )

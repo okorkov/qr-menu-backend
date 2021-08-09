@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::LinksController, :type => :controller do
-  describe "responds to" do
 
     before(:each) do
       @user = User.create(email: 'test@qr-menu.rest', password: 'test')
@@ -27,5 +26,4 @@ RSpec.describe Api::V1::LinksController, :type => :controller do
       expect(Integer(JSON.parse(response.body)['id'])).to eq(@link.id)
     end
 
-  end
 end
