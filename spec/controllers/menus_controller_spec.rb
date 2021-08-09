@@ -47,8 +47,23 @@ RSpec.describe Api::V1::MenusController, :type => :controller do
     expect(JSON.parse(response.body)["status"]).to eq("success")
   end
 
-  it 'pulls out data for demo controller consistently'
+  it 'pulls out data for demo controller consistently' do
+    menu = Menu.new(user: User.create(email: 'demo@qr-menu.rest', password: 'demo'))
+    menu.pdf_file.attach(@file)
+    menu.save
+    get :demo
+    expect(response).to have_http_status(:ok)
+    expect(response.content_type).to eq('application/json; charset=utf-8')
+  end
 
-  it 'destroys the menu'
+  it 'destroys the menu' do
+    menu = Menu.new(user: @user)
+    menu.pdf_file.attach(@file)
+    menu.save
+    post :destroy, params: {token: @token, id: 1}
+    expect(response).to have_http_status(:ok)
+    expect(JSON.parse(response.body)['status']).to eq('success')
+    expect(Integer(JSON.parse(response.body)['id'])).to eq(menu.id)
+  end
 
 end
