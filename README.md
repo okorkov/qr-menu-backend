@@ -1,5 +1,5 @@
 # [qr-menu.rest](https://qr-menu.rest)
-## [qr-file.digital](https://www.qr-file.digital:433/) - Backend
+## [qr-file.digital](https://www.qr-file.digital/) - Backend
 
 ### Frontend [Repo](https://github.com/okorkov/qr-menu-frontend)
 ### Backend [Repo](https://github.com/okorkov/qr-menu-backend)
