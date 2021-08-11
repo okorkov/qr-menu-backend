@@ -14,7 +14,7 @@ RSpec.describe Api::V1::LinksController, :type => :controller do
       expect(response).to have_http_status(:ok)
       expect(response.content_type).to eq('application/json; charset=utf-8')
       expect(JSON.parse(response.body)["address"]).to eq('https://qr-menu.rest')
-      expect(JSON.parse(response.body)['qr_code']).to_not be_nil
+      expect(JSON.parse(response.body)['qr_code_link']).to_not be_nil
       expect(JSON.parse(response.body)['id']).to eq(@user.id)
     end
 

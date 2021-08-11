@@ -8,7 +8,7 @@ class Api::V1::LinksController < ApplicationController
     new_link.qr_code.attach(io: StringIO.new(png.to_s), filename: "qr_link.png")
     new_link.qr_code_link = new_link.qr_code.url.sub(/\?.*/, '')
     new_link.save
-    render json: {address: new_link.address, qr_code: new_link.qr_code_link, id: new_link.id}
+    render json: new_link
   end
 
   def destroy
